@@ -1,8 +1,7 @@
 import { Component } from "react";
 import ReactPaginate from 'react-paginate';
-
-import PokemonDetails from "../PokemonDetails"
 import Loader from "react-loader-spinner";
+import PokemonDetails from "../PokemonDetails"
 import "./index.css"
 
 
@@ -10,6 +9,7 @@ const appStatusConstants ={
     initial:"INITIAL",
     success:"SUCCESS",
     inProgress:"IN_PROGRESS",
+    linkAccess:"LINK_ACCESS",
 }
 
 let totalPages = 100000
@@ -18,7 +18,7 @@ const pageCount = totalPages/limit
 
 
 class Home extends Component{
-    state={appStauts:appStatusConstants.initial,requiredData:[],pokemonDetails:[],currentPage:2,offset:0,linkClick:false}
+    state={appStauts:appStatusConstants.initial,requiredData:[],pokemonDetails:[],currentPage:1,offset:0}
 
     componentDidMount(){
         this.getDetails()
@@ -57,17 +57,21 @@ handlePageClick =  (data) =>{
             const url=`https://pokeapi.co/api/v2/pokemon/${data}`
             const response = await fetch(url)
             const info = await response.json()
-            this.setState({pokemonDetails:info,linkClick:true})            
+            this.setState({pokemonDetails:info,appStatus:appStatusConstants.linkAccess})            
         }
         
     }
 
+
+    backButton = () =>{
+        {this.successView()}
+    }
+
+
     linkInfoView = () =>{
         const {pokemonDetails} = this.state
         return(
-            <div className="pokemon-detailed-view-container">
-                <h1>HAI</h1>
-            </div>
+            <PokemonDetails data={pokemonDetails}/>
         )
     }
     
@@ -81,11 +85,13 @@ handlePageClick =  (data) =>{
                 <ul className="pokemon-list">                     
                     {requiredData.map(item=>(
                        <li className="pokemon-list-item" key={item.name}>
+                        
                         <button type="button"
                         className="pokemon-button"
                         onClick = {() => this.navigate(item.name)}>                            
                                 <p className="pokemon-name">{item.name.toUpperCase()}</p>                           
                         </button>
+                
                         </li>
                         
                         
@@ -109,12 +115,24 @@ handlePageClick =  (data) =>{
         )
     }
 
+
+    renderringView= () =>{
+        const {appStatus} = this.state
+        switch(appStatus){
+            
+                
+            case appStatusConstants.linkAccess:
+                return this.linkInfoView()
+            default:
+                return this.successView()
+        }
+    } 
+
     render(){
         const {linkClick} = this.state
         return(
             <>
-            {this.successView()}
-            {this.linkInfoView()}
+            {this.renderringView()}
                 </>
         )
     }

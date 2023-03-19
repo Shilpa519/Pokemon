@@ -1,0 +1,48 @@
+.pokemon-name{
+    font-size: 30px;
+    font-weight:900;
+    text-align: center;
+}
+
+.pokemon-details-list{
+    display: flex;
+    flex-direction: column;
+    padding:0px;
+    justify-content: flex-start;
+    background-color: aqua;
+    min-height:100vh;
+    max-height:100%
+}
+
+.abilities-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.abilities{
+    font-weight:600;
+    font-size: 18px;
+}
+
+.unordered-abilities-list-container{
+    list-style-type: none;
+}
+
+.abilities-list-item{
+    display: flex;
+    flex-direction: column;
+}
+
+.ability-name{
+    font-weight :600;
+    font-size:14px;
+    color: darkgreen;
+}
+
+.ab-name{
+    font-weight:0;
+    font-size: 10px;
+    color:indigo
+}
